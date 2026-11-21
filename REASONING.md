@@ -80,17 +80,17 @@ This rule executes the base clause first before the one with the recursive call,
 
 ## len([a, b, c], N)
 
-Write one to three sentences here. Name the rule that fixes each field.
+The query matches the recursive rule of the predicate len, which is len([_|T], N) :- len(T, M), N is M + 1. len([a, b, c], N) fails the base clause and satisfies the second rule, recursing to len([b, c], M1), where N = M1 + 1, then again fails the base clause and recurses to len([c], M2), where M1 = M2 + 1. Finally, len([], M3), which satisfies the base clause, gives M3 = 0. Unwinding gives us M3 = 0 -> M2 = M3 + 1 = 0 + 1 = 1, M1 = M2 + 1 = 1 + 1 = 2, N = M1 + 1 = 2 + 1 = 3, no more answers for the first ;, giving count 1.
 
-## P14
+## join(X, Y, [1, 2])
 
-Write one to three sentences here. Name the rule that fixes each field.
+The query matches the base clause join([], L, L), binding X to [] and Y to [1, 2] since the second and third terms are the same. For the first ;, Prolog proceeds to the recursive clause join([H|T], L, [H|R]) :- join(T, L, R) where join(X, Y, [1, 2]) calls join(X, Y, [2]) and it satisfying the base clause again, binding X to [] and Y to [2], since 2 is the tail of [1,2]. This can recurse another more time before it hits false, totaling count to 3.
 
-## P15
+## X > 2, elem(X, [1, 2, 3])
 
-Write one to three sentences here. Name the rule that fixes each field.
+The goal order inside the query body puts X > 2 first, and it can only be checked when X already holds a number, which in this case it does not have one yet. Therefore, Prolog throws an (instantiation) error.
 
-## P16
+## elem(X, [1, 2, 3]), X > 2
 
-Write one to three sentences here. Name the rule that fixes each field.
+The compound query takes each element in the list and binds it to X (goal 1) and checks if X > 2 (goal 2). It first binds X to 1 since 1 is the head and matches the base clause, but 1 is not greater than 2, so Prolog unbinds X, backtracks to the recursive clause, and calls elem(X, [2, 3]). There, it matches the base clause to bind X to 2, but again 2 is not greater than 2, so it unbinds X and recurses one last time as elem(X, [3])—binding X to 3 via the base clause, verifying that 3 > 2, and returning X=3. The first ; recurses into elem(X, []) which fails, so the count remains at 1.
 
