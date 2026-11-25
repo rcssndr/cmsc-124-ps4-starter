@@ -104,7 +104,8 @@ last_of(T, X).
 route(From, To, Path) :-
     travel(From, To, [From], Path).
 
-travel(To, To, Visited, Visited).
+travel(To, To, Visited, Path) :-
+    rev(Visited, Path).
 
 travel(Curr, To, Visited, Path) :-
     edge(Curr, Next),
