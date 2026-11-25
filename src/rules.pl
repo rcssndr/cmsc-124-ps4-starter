@@ -105,3 +105,8 @@ route(From, To, Path) :-
     travel(From, To, [From], Path).
 
 travel(To, To, Visited, Visited).
+
+travel(Curr, To, Visited, Path) :-
+    edge(Curr, Next),
+    \+ elem(Next, Visited),
+    travel(Next, To, [Next|Visited], Path).
