@@ -17,15 +17,15 @@
 % Order matters. X \= Y succeeds only when X and Y are already bound to
 % different things, so put it after the goal that binds them.
 sibling(X, Y) :-
-    parent(P, X).
-    parent(P, Y).
+    parent(P, X),
+    parent(P, Y),
     X \= Y.
 
 % cousin(X, Y): a parent of X and a parent of Y are siblings.
 cousin(X, Y) :-
-    parent(A, X).
-    parent(B, Y).
-    siblings(A, B).
+    parent(A, X),
+    parent(B, Y),
+    sibling(A, B).
 
 % descendant(D, A): A is an ancestor of D.
 %
