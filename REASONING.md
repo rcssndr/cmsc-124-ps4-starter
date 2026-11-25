@@ -32,7 +32,6 @@ nothing and the search ends after one answer.
 
 ## P01
 
-The goal scans the parent facts in source order and takes the first whose first argument is tom. The first match it sees is parent(tom, liz), so X binds to liz. Aside from that, parent(tom, bob) also exists below, so the first ; finds it and X binds to bob, giving the count 2.
 The goal scans the parent facts in source order (top to bottom) and first finds parent(tom, liz), so X is bound to liz. When asked for another answer using a semicolon, it continues searching and finds parent(tom, bob), making X = bob. Since there are no more matching facts after this, the search stops after 2 answers.
 
 ## P02
@@ -65,33 +64,33 @@ In the knowledge base, the base rule parent(A, D) comes before the recursive rul
 
 ## P09
 
-Write one to three sentences here. Name the rule that fixes each field.
+Unlike P08, the recursive rule is placed before the base rule. Because of this, it explores deeper relationships first before checking the direct parent relationships. It follows each branch of the family tree before moving to the next one, finding X = sue first and X = jim second. Although the search order is different, it still finds 6 answers in total.
 
 ## P10
 
-Write one to three sentences here. Name the rule that fixes each field.
+The query searches for the ancestors of jim in source order, first matching the base case rule to bind X to jim’s direct parent, pat. When searching for another answer, it switches to the recursive rule and checks the parent relationships from top to bottom. This leads to X = tom being found before X = bob, giving 3 answers in total before it terminates with false.
 
 ## P11
 
-Write one to three sentences here. Name the rule that fixes each field.
+The first clause of reach calls itself again before checking any actual graph edges. Since it keeps repeating the same call with the starting point a, it gets stuck in an endless recursive loop. It never reaches a point where it can produce an answer, producing both unbounded results and count.
 
 ## P12
 
-Write one to three sentences here. Name the rule that fixes each field.
+Unlike P11, this rule checks an actual graph edge first before calling itself recursively. This allows it to follow the path a -> b -> c -> d and successfully return true for the first answer. However, when searching for another answer, backtracking switches to the recursive rule and sees edge(c,a) first, causing it to follow the cycle a -> b -> c -> a repeatedly. Because there is no condition to stop the cycle, the search continues indefinitely and answers true each time, its total count unbounded.
 
 ## P13
 
-Write one to three sentences here. Name the rule that fixes each field.
+The len rule counts the elements by removing one element from the head of the list at a time. It continues doing this until the list becomes empty, which matches the base case len([], 0). As the recursive calls unwind, it adds 1 for every element counted (0 + 1 + 1 + 1), resulting in N = 3. Since there are no alternative branches, the query produces 1 answer.
 
 ## P14
 
-Write one to three sentences here. Name the rule that fixes each field.
+The join rule can also be used to split a list into two parts. It first uses the base rule, giving X = [] and Y = [1, 2]. When it goes back to look for other answers, it uses the recursive rule to move one element at a time from Y to X, producing [1] and [2], followed by [1, 2] and []. This results in 3 valid answers.
 
 ## P15
 
-Write one to three sentences here. Name the rule that fixes each field.
+Prolog evaluates the goals from left to right, and the goal order inside the query body puts X > 2 first, so it tries to evaluate it before checking elem. However, X does not have a value yet, and arithmetic comparisons require an assigned numeric value. Therefore, Prolog throws an instantiation error for all fields before it can check the elements of the list.
 
 ## P16
 
-Write one to three sentences here. Name the rule that fixes each field.
+Unlike P15, the goals are arranged so that elem runs before the comparison. This allows it to generate values for X from the list first. It first binds X to 1 but it fails the condition X > 2 and so rebinds it to 2, but fails again. It then tries X = 3, which satisfies the condition and becomes the only successful answer.
 
